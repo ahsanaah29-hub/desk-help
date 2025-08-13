@@ -1,0 +1,2576 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ask AroundTally.com</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            min-height: 100vh;
+        }
+
+        /* Common Button Styles */
+        .btn {
+            background-color: #5B9BD5; /* Day Sky Blue */
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+        .btn:hover {
+            background-color: #6BB8E8;
+        }
+
+        /* Header Styles */
+        .header {
+            background-color: #003366; /* Earth Blue */
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            text-align: center;
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .header .logo {
+            color: white;
+            font-size: 24px;
+            margin-right: 10px;
+        }
+
+        
+
+        /* Login Page Styles */
+        .login-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: calc(100vh - 60px);
+        }
+
+        .login-box {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .login-header {
+            background-color: #003366;
+            color: white;
+            font-size: 14px;
+            font-weight: bold;
+            text-align: center;
+            padding: 10px;
+            margin: -30px -30px 20px -30px;
+            border-radius: 8px 8px 0 0;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 60px;
+        }
+
+        .error-message {
+            color: #DC143C; /* Love Red */
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+        /* Admin Page Styles */
+        .admin-container {
+            display: none;
+        }
+
+        .admin-header {
+            background-color: #FFF8DC; /* Cyan Blue */
+            color: #444444;
+            font-size: 16px;
+            font-weight: bold;
+            text-align: center;
+            padding: 15px;
+        }
+
+        .admin-content {
+            display: flex;
+            min-height: calc(100vh - 60px);
+        }
+
+        .sidebar {
+            width: 13%;
+            background-color: #F8F8FF; /* Pearl White */
+            padding: 20px 0;
+            min-height: calc(100vh - 60px);
+        }
+
+        .menu-item {
+            display: block;
+            width: 100%;
+            padding: 12px 15px;
+            background: none;
+            border: none;
+            color: #003366; /* Earth Blue */
+            font-size: 12px;
+            cursor: pointer;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+		
+		.menu-item.logout {																			background-color: #DC143C; /* Love Red */
+			color: white;
+		}
+
+		.menu-item.logout:hover {																	background-color: #ff4d4d;
+		}
+
+        .menu-item:hover, .menu-item.active {
+            background-color: #F0FFFF; /* White Ice */
+        }
+		
+
+        .main-content {
+            flex: 1;
+            background: white;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .content-header {
+            color: #003366;
+            font-size: 15px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        /* Question Answer Section */
+        .qa-section {
+            margin-bottom: 20px;
+        }
+
+        .qa-buttons {
+            margin-bottom: 15px;
+        }
+
+        .question-area {
+            height: 20vh;
+            margin-bottom: 15px;
+        }
+
+        .answer-area {
+            height: 60vh;
+        }
+
+        .prediction-list {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            max-height: 150px;
+            overflow-y: auto;
+            display: none;
+        }
+
+        .prediction-item {
+            padding: 8px 12px;
+            cursor: pointer;
+            border-bottom: 1px solid #eee;
+        }
+
+        .prediction-item:hover {
+            background-color: #f5f5f5;
+        }
+
+        /* Department Management */
+        .department-list {
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 10px;
+            margin-top: 15px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .department-item {
+            display:flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 5px;
+            border-bottom: 1px solid #eee;
+        }
+        
+
+        .department-item:last-child {
+            border-bottom: none;
+        }
+        
+
+
+        /* Report Section */
+        .report-container {
+            display: flex;
+        }
+
+        .report-sidebar {
+            width: 200px;
+            border-right: 1px solid #ddd;
+            padding-right: 20px;
+        }
+
+        .report-content {
+            flex: 1;
+            padding-left: 20px;
+        }
+
+        .report-link {
+            display: block;
+            color: #5B9BD5;
+            font-size: 12px;
+            text-decoration: none;
+            padding: 8px 0;
+            cursor: pointer;
+        }
+
+        .report-link:hover {
+            text-decoration: underline;
+        }
+
+        .report-sublink {
+            font-size: 11px;
+            margin-left: 15px;
+            padding: 4px 0;
+        }
+
+        .default-report-message {
+            text-align: center;
+            color: #C0C0C0; /* Metallic Silver */
+            font-size: 14px;
+            margin-top: 50px;
+        }
+
+        /* User Page Styles */
+        .user-container {
+            display: none;
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .user-header {
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #1E90FF;
+        }
+
+        .suggestion-box {
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: #f9f9f9;
+        }
+
+        .media-buttons {
+            margin-top: 10px;
+        }
+
+        .media-display {
+            margin-top: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 10px;
+            min-height: 200px;
+            display: none;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 25%;
+            }
+            
+            .admin-content {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+                height: auto;
+            }
+            
+            .report-container {
+                flex-direction: column;
+            }
+            
+            .report-sidebar {
+                width: 100%;
+                border-right: none;
+                border-bottom: 1px solid #ddd;
+                padding-bottom: 20px;
+                margin-bottom: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .login-box {
+                margin: 20px;
+                padding: 20px;
+            }
+            
+            .header {
+                font-size: 16px;
+            }
+            
+            .question-area {
+                height: 15vh;
+            }
+            
+            .answer-area {
+                height: 40vh;
+            }
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .file-upload {
+            margin: 15px 0;
+        }
+
+        .suggestions-link {
+            color: #DC143C;
+            font-size: 12px;
+            text-decoration: none;
+            display: inline-block;
+            margin: 10px 0;
+        }
+
+        .suggestions-link:hover {
+            text-decoration: underline;
+        }
+
+        .status-pending {
+            background-color: #CD5C5C; /* Bean Red */
+            color: white;
+        }
+
+        .status-resolved {
+            background-color: #90EE90;
+            color: #333;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        table th, table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        table th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+
+        .loading {
+            text-align: center;
+            color: #666;
+            padding: 20px;
+        }
+		.department-radio-group {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 20px;
+			margin-bottom: 10px;
+		}
+		.department-radio-group label {
+			display: flex;
+			align-items: center;
+			margin-right: 15px;
+			font-size: 10px;
+		}
+		
+		.user-header {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			text-align: left; /* Ensure text stays left-aligned */
+			font-size: 18px;
+			font-weight: bold;
+			margin-bottom: 20px;
+			color: #1E90FF;
+		}
+
+		.logout-btn {
+			background-color: #DC143C; /* Love Red, matching admin logout button */
+		}
+
+		.logout-btn:hover {
+			background-color: #ff4d4d; /* Matching admin logout hover */
+		}
+
+    </style>
+</head>
+<body>
+    <div class="header">
+		<span class="logo">🌸</span>
+		<span id="site-title">Ask AroundTally.com</span>
+	</div>
+
+    <div id="login-page" class="login-container">
+        <div class="login-box">
+            <div class="login-header">Login</div>
+            <form id="login-form">
+                <div class="form-group">
+                    <label for="uid">UID</label>
+                    <input type="text" id="uid" name="uid" autocomplete="off" list="user-list">
+					<datalist id="user-list"></datalist>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" autocomplete="current-password">
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn">Login</button>
+                </div>
+                <div id="login-error" class="error-message"></div>
+            </form>
+        </div>
+    </div>
+
+    <div id="admin-page" class="admin-container">
+        <div class="admin-header">Admin Page</div>
+        <div class="admin-content">
+            <div class="sidebar">
+				<button class="menu-item active" onclick="showSection('qa')">Q and A</button>
+				<button class="menu-item" onclick="showSection('department')">User Level Department</button>
+				<button class="menu-item" onclick="showSection('user-management')">User Management</button>
+				<button class="menu-item" onclick="showSection('report')">Report</button>
+				<button class="menu-item" onclick="showSection('settings')">Settings</button>
+				<button class="menu-item" onclick="showSection('change-password')">Change Password</button>
+				<button class="menu-item" onclick="logout()">Logout</button> 													</div>
+            
+            <div class="main-content">
+				<div id="pending-suggestions-list" style="display:none;"></div>
+                <div id="qa-section" class="content-section">
+                    <div class="content-header">Question & Answer Management</div>
+                    <div class="qa-buttons">
+                        <button class="btn" onclick="setMode('ask')">Ask</button>
+                        <button class="btn" onclick="setMode('add')">Add</button>
+                    </div>
+                        
+                    <div id="department-select" class="form-group hidden">
+                        <label ="qa-department">Select Department</label>
+                        <div id="qa-department-radio" class="department-radio-group"></div>
+
+                       <div id="qa-department" class="department-buttons"></div>
+
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="admin-question">Question</label>
+                        <textarea id="admin-question" class="question-area" placeholder="Enter your question here..."></textarea>
+                        <div id="admin-prediction-list" class="prediction-list"></div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="admin-answer">Answer</label>
+                        <textarea id="admin-answer" class="answer-area" placeholder="Answer will appear here..." readonly></textarea>
+                    </div>
+                    
+                    <div id="media-section" class="hidden">
+                        <div class="media-buttons">
+                            <button class="btn" onclick="addVideo()">Video</button>
+                            <button class="btn" onclick="addImage()">Image</button>
+                        </div>
+                        <input type="url" id="video-link" placeholder="Enter video URL" style="display:none; width:100%; margin:10px 0;">
+                        <input type="file" id="image-upload" accept="image/*" style="display:none;" multiple>
+                    </div>
+                    
+                    <div id="admin-buttons" class="hidden">
+                        <div class="file-upload">
+                            <label for="excel-upload">Choose Excel File:</label>
+                            <input type="file" id="excel-upload" accept=".xlsx,.xls">
+                            <button class="btn" onclick="exportExcel()">Export</button>
+                        </div>
+                        <button class="btn" onclick="saveQA()">Save</button>
+                        <button class="btn" onclick="editUpdate()">Edit & Update</button>
+                        
+                        <a href="#" class="suggestions-link" onclick="showSuggestions()">Suggestions from User</a>
+                    </div>
+                </div>
+
+                <div id="department-section" class="content-section hidden">
+                    <div class="content-header">Create New Department / Delete</div>
+                    <div class="form-group">
+                        <label for="dept-name">Department Name</label>
+                        <input type="text" id="dept-name">
+                    </div>
+                    <button class="btn" onclick="createDepartment()">Create</button>
+                    
+                    <div class="department-list" id="department-list">
+                        <h4>Department List</h4>
+                        <div id="dept-items"></div>
+                    </div>
+                </div>
+
+                <div id="user-management-section" class="content-section hidden">
+                    <div class="content-header">Add or Edit User</div>
+                    <div class="form-group">
+                        <label for="user-department">Select Department</label>
+                        <select id="user-department">
+                            <option value="">Choose Department</option>
+                        </select>
+                        <div id="dept-error" class="error-message"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="new-username">User Name</label>
+                        <input type="text" id="new-username">
+                        <div id="username-error" class="error-message"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="new-user-password">Password</label>
+                        <input type="password" id="new-user-password">
+                    </div>
+                    <button class="btn" onclick="createUser()">Create</button>
+                    <a href="#" onclick="showUserList()">User List</a>
+                    
+                    <div id="user-management-list-container" class="hidden">
+                        <h4>User List</h4>
+                        <div id="user-items"></div>
+                    </div>
+                </div>
+
+                <div id="report-section" class="content-section hidden">
+                    <div class="content-header">Report</div>
+                    <div class="report-container">
+                        <div class="report-sidebar">
+                            <a href="#" class="report-link" onclick="showUserReport()">User Report</a>
+                            <div id="user-report-depts" class="hidden"></div>
+                            
+                            <a href="#" class="report-link" onclick="showQAReport()">Q & A Report</a>
+                            <div id="qa-report-depts" class="hidden"></div>
+                            
+                            <a href="#" class="report-link" onclick="showSuggestionsReport()">Suggestions</a>
+                            <div id="suggestions-report-links" class="hidden">
+                                <a href="#" class="report-link report-sublink" onclick="showSuggestionsList('all')">All</a>
+                                <a href="#" class="report-link report-sublink" onclick="showSuggestionsList('pending')">Pending</a>
+                                <a href="#" class="report-link report-sublink" onclick="showSuggestionsList('solved')">Solved</a>
+                            </div>
+                        </div>
+                        <div class="report-content">
+                            <div id="report-display">
+                                <div class="default-report-message">Select any report</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="settings-section" class="content-section hidden">
+                    <div class="content-header">Settings</div>
+                    
+                    <div class="form-group">
+                        <h4>Change Page Name</h4>
+                        <label for="current-name">Current Name</label>
+                        <input type="text" id="current-name" value="Ask AroundTally.com" readonly>
+                        <label for="new-page-name">New Name</label>
+                        <input type="text" id="new-page-name">
+                        <button class="btn" onclick="changePageName()">Change</button>
+                    </div>
+                    
+                    <div class="form-group">
+                        <h4>Show List Of Users, When Login</h4>
+                        <label>
+                            <input type="radio" name="show-users" value="yes"> Yes
+                        </label>
+                        <label>
+                            <input type="radio" name="show-users" value="no" checked> No
+                        </label>
+                    </div>
+                    
+                    <div class="form-group">
+                        <h4>User can Add suggestion</h4>
+                        <label>
+                            <input type="radio" name="user-suggestions" value="yes" checked> Yes
+                        </label>
+                        <label>
+                            <input type="radio" name="user-suggestions" value="no"> No
+                        </label>
+                    </div>
+                    
+                    <div class="form-group">
+                        <h4>User can add Corrections</h4>
+                        <label>
+                            <input type="radio" name="user-corrections" value="yes"> Yes
+                        </label>
+                        <label>
+                            <input type="radio" name="user-corrections" value="no" checked> No
+                        </label>
+                    </div>
+                    
+                    <div class="form-group">
+                        <h4>Allow video/Image</h4>
+                        <label>
+                            <input type="checkbox" name="allow-media" value="video"> Video
+                        </label>
+                        <label>
+                            <input type="checkbox" name="allow-media" value="image"> Image
+                        </label>
+                    </div>
+                    
+                    <button class="btn" onclick="saveSettings()">Save Settings</button>
+                </div>
+
+                <div id="change-password-section" class="content-section hidden">
+                    <div class="content-header">Create Admin</div>
+                    
+                    <div class="form-group">
+                        <label for="admin-userid">User ID</label>
+                        <input type="text" id="admin-userid">
+                    </div>
+                    <div class="form-group">
+                        <label for="admin-password">Password</label>
+                        <input type="password" id="admin-password">
+                    </div>
+                    <div class="form-group">
+                        <label for="admin-repassword">Re-enter Password</label>
+                        <input type="password" id="admin-repassword">
+                    </div>
+                    <button class="btn" onclick="saveAdminCredentials()">Save</button>
+                    <button class="btn" onclick="editAdminCredentials()">Edit</button>
+                    
+                    <div id="edit-admin" class="hidden">
+                        <h4>Change Password</h4>
+                        <div class="form-group">
+                            <label for="current-admin-id">Current User ID</label>
+                            <input type="text" id="current-admin-id">
+                        </div>
+                        <div class="form-group">
+                            <label for="current-admin-password">Current Password</label>
+                            <input type="password" id="current-admin-password">
+                        </div>
+                        <div class="form-group">
+                            <label for="new-admin-password">New Password</label>
+                            <input type="password" id="new-admin-password">
+                        </div>
+                        <div class="form-group">
+                            <label for="new-admin-repassword">Re-enter New Password</label>
+                            <input type="password" id="new-admin-repassword">
+                        </div>
+                        <button class="btn" onclick="changeAdminPassword()">Change</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="user-page" class="user-container">
+        <div class="user-header">													<span>User Mode</span>
+		<button class="btn logout-btn" onclick="logout()">Logout</button>
+	</div>
+        
+        <div class="qa-buttons">
+            <button class="btn" onclick="setUserMode('ask')">Ask</button>
+            <button class="btn" id="user-add-btn" onclick="setUserMode('add')" style="display:none;">Add</button>
+        </div>
+        
+        <div class="form-group">
+            <label for="user-question">Question</label>
+            <textarea id="user-question" class="question-area" placeholder="Enter your question here..."></textarea>
+            <div id="user-prediction-list" class="prediction-list"></div>
+        </div>
+        
+        <div class="form-group">
+            <label for="user-answer">Answer</label>
+            <textarea id="user-answer" class="answer-area" placeholder="Answer will appear here..." readonly></textarea>
+        </div>
+        
+        <div class="media-buttons">
+            <button class="btn" onclick="showUserVideo()">Video</button>
+            <button class="btn" onclick="showUserImage()">Image</button>
+        </div>
+        
+        <div id="user-media-display" class="media-display"></div>
+        
+        <div class="suggestion-box">
+            <label for="user-suggestion">Suggestion</label>
+            <textarea id="user-suggestion" placeholder="Enter your suggestion here..."></textarea>
+            <button class="btn" onclick="submitSuggestion()">Submit Suggestion</button>
+        </div>
+        
+        <div>
+            <button class="btn" id="user-update-btn" onclick="updateUserAnswer()" style="display:none;">Update</button>
+        </div>
+        
+        <div style="margin-top: 20px;">
+            <a href="#" onclick="showChangeUserPassword()">Change User Password</a>
+        </div>
+        
+        <div id="change-user-password" class="hidden" style="margin-top: 15px; padding: 15px; border: 1px solid #ddd; border-radius: 4px;">
+            <h4>Change Password</h4>
+            <div class="form-group">
+                <label for="user-current-id">Enter your UID</label>
+                <input type="text" id="user-current-id">
+            </div>
+            <div class="form-group">
+                <label for="user-current-password">Enter current password</label>
+                <input type="password" id="user-current-password">
+            </div>
+            <div class="form-group">
+                <label for="user-new-password">Enter new password</label>
+                <input type="password" id="user-new-password">
+            </div>
+            <div class="form-group">
+                <label for="user-new-repassword">Re-enter new password</label>
+                <input type="password" id="user-new-repassword">
+            </div>
+            <button class="btn" onclick="changeUserPassword()">Save</button>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+	<script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+
+    <script>
+        // Global state management
+        let appState = {
+            currentPage: 'login',
+            currentMode: 'ask',
+            userMode: 'ask',
+            isFirstLogin: true,
+            currentUser: null,
+            isAdmin: false,
+            departments: [],
+            users: [],
+            qaData: [],
+            suggestions: [],
+            settings: {
+                showUserList: false,
+                allowSuggestions: true,
+                allowCorrections: false,
+                allowVideo: false,
+                allowImage: false
+            }
+        };
+    
+        // Replace with your Supabase project URL and public anon key
+        const SUPABASE_URL = 'https://eiaoxqwrgfbjnufjxaub.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVpYW94cXdyZ2Ziam51Zmp4YXViIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMxNzc4ODcsImV4cCI6MjA2ODc1Mzg4N30.Nd0zd5q1Urjkur2zyaKtKEyfbHOPJPjU4ANsdi4UyNw';
+
+        // Initialize Supabase client with proper configuration
+        let supabaseClient;
+        
+        // Wait for Supabase library to load
+        function initializeSupabase() {
+            try {
+                if (typeof supabase !== 'undefined' && supabase.createClient) {
+                    supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+                        auth: {
+                            autoRefreshToken: false,
+                            persistSession: false
+                        }
+                    });
+                    console.log('Supabase client initialized successfully');
+                    return true;
+                } else {
+                    console.error('Supabase library not loaded');
+                    return false;
+                }
+            } catch (error) {
+                console.error('Error initializing Supabase:', error);
+                return false;
+            }
+        }
+
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize Supabase first
+            if (!initializeSupabase()) {
+                alert('Failed to initialize database connection. Please refresh the page.');
+                return;
+            }
+            
+            // Setup form submissions and enter key handling
+            setupEventListeners();
+            
+            // Load initial data with delay to ensure Supabase is ready
+            setTimeout(() => {
+                loadInitialData();
+            }, 500);
+        });
+
+        function setupEventListeners() {
+            // Login form handling
+            document.getElementById('login-form').addEventListener('submit', handleLogin);
+            
+            // Enter key navigation
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') {
+                    const activeElement = document.activeElement;
+                    const inputs = Array.from(document.querySelectorAll('input, textarea, select'));
+                    const currentIndex = inputs.indexOf(activeElement);
+                    
+                    if (currentIndex >= 0 && currentIndex < inputs.length - 1) {
+                        e.preventDefault();
+                        inputs[currentIndex + 1].focus();
+                    }
+                }
+            });
+
+            // Question prediction handling
+            document.getElementById('admin-question').addEventListener('input', handleQuestionInput);
+            document.getElementById('user-question').addEventListener('input', handleUserQuestionInput);
+        }
+
+        // Add this helper function to create sample data if tables are empty
+        async function initializeSampleData() {
+            try {
+                console.log('Checking if sample data initialization is needed...');
+                
+                // Check if we have any departments
+                if (appState.departments.length === 0) {
+                    console.log('No departments found, you may need to create some through the admin panel');
+                }
+                
+                // Check if we have any admin users
+                const { data: adminCheck } = await supabaseClient
+                    .from('admin_credentials')
+                    .select('user_id')
+                    .limit(1);
+                
+                if (!adminCheck || adminCheck.length === 0) {
+                    console.log('No admin users found. You can create admin credentials through the admin panel.');
+                    console.log('For testing, you might want to manually insert an admin user in your database:');
+                    console.log('INSERT INTO admin_credentials (user_id, password) VALUES (\'admin\', \'admin123\');');
+                }
+                
+            } catch (error) {
+                console.error('Error checking sample data:', error);
+            }
+        }
+        
+        // Call this after loading initial data
+        async function loadInitialData() {
+            try {
+                if (!supabaseClient) {
+                    console.error('Supabase client not initialized');
+                    return;
+                }
+                
+                console.log('Loading initial data...');
+                
+                // Load departments
+                await loadDepartments();
+                
+                // Load Q&A data
+                await loadQA();
+                
+                // Load users (only for admin)
+                await loadUsers();
+                await loadSettings();
+				 
+				updateUserListDatalist();
+                // Load suggestions
+                await loadSuggestions();
+                
+                // Initialize sample data if needed
+                await initializeSampleData();
+                
+                console.log('Initial data loaded successfully');
+                
+            } catch (error) {
+                console.error('Error loading initial data:', error);
+                // Don't show alert here as it might be expected for empty tables
+            }
+        }
+
+        // Fixed department loading function with better error handling
+        async function loadDepartments() {
+            try {
+                if (!supabaseClient) {
+                    console.error('Supabase client not available');
+                    return;
+                }
+                
+                console.log('Loading departments...');
+                
+                const { data, error } = await supabaseClient
+                    .from('department_list')
+                    .select('department_name')
+                    .order('department_name');
+                
+                if (error) {
+                    console.error('Error loading departments:', error);
+                    // If table doesn't exist, create empty array
+                    appState.departments = [];
+                    return;
+                }
+                
+                appState.departments = data ? data.map(d => d.department_name) : [];
+                console.log('Departments loaded:', appState.departments);
+                updateDepartmentSelects();
+            } catch (error) {
+                console.error('Error in loadDepartments:', error);
+                appState.departments = [];
+            }
+        }
+
+        // Fixed Q&A loading function
+        async function loadQA() {
+            try {
+                if (!supabaseClient) {
+                    console.error('Supabase client not available');
+                    return;
+                }
+                
+                console.log('Loading Q&A data...');
+                
+                const { data, error } = await supabaseClient
+                    .from('qa')
+                    .select('*')
+                    .order('created_at', { ascending: false });
+                
+                if (error) {
+                    console.error('Error loading Q&A:', error);
+                    appState.qaData = [];
+                    return;
+                }
+                
+                appState.qaData = data || [];
+                console.log('Q&A data loaded:', appState.qaData.length, 'items');
+            } catch (error) {
+                console.error('Error in loadQA:', error);
+                appState.qaData = [];
+            }
+        }
+
+        // Fixed users loading function
+        async function loadUsers() {
+            try {
+                if (!supabaseClient) {
+                    console.error('Supabase client not available');
+                    return;
+                }
+                
+                console.log('Loading users...');
+                
+                const { data, error } = await supabaseClient
+                    .from('user_credentials')
+                    .select('*')
+                    .order('user_id');
+                
+                if (error) {
+                    console.error('Error loading users:', error);
+                    appState.users = [];
+                    return;
+                }
+                
+                appState.users = data || [];
+                console.log('Users loaded:', appState.users.length, 'items');
+            } catch (error) {
+                console.error('Error in loadUsers:', error);
+                appState.users = [];
+            }
+        }
+
+        // Fixed suggestions loading function
+        async function loadSuggestions() {
+            try {
+                if (!supabaseClient) {
+                    console.error('Supabase client not available');
+                    return;
+                }
+                
+                console.log('Loading suggestions...');
+                
+                const { data, error } = await supabaseClient
+                    .from('suggestions')
+                    .select('*')
+                    .order('created_at', { ascending: false });
+                
+                if (error) {
+                    console.error('Error loading suggestions:', error);
+                    appState.suggestions = [];
+                    return;
+                }
+                
+                appState.suggestions = data || [];
+                console.log('Suggestions loaded:', appState.suggestions.length, 'items');
+            } catch (error) {
+                console.error('Error in loadSuggestions:', error);
+                appState.suggestions = [];
+            }
+        }
+
+        // Fixed login function with better error handling
+        async function handleLogin(e) {
+            e.preventDefault();
+            const uid = document.getElementById('uid').value.toLowerCase().trim();
+            const password = document.getElementById('password').value;
+
+            clearLoginError();
+
+            if (!uid || !password) {
+                showLoginError('Please fill in both fields');
+                return;
+            }
+
+            if (!supabaseClient) {
+                showLoginError('Database connection not available');
+                return;
+            }
+
+            try {
+                console.log('Attempting login for:', uid);
+                
+                // Check Admin Table first
+                const { data: admin, error: adminError } = await supabaseClient
+                    .from('admin_credentials')
+                    .select('*')
+                    .eq('user_id', uid)
+                    .eq('password', password)
+                    .maybeSingle(); // Use maybeSingle() instead of single()
+                
+                if (admin) {
+                    console.log('Admin login successful');
+                    appState.currentUser = admin;
+                    appState.isAdmin = true;
+                    showAdminPage();
+                    return;
+                }
+
+                // Check User Table
+                const { data: user, error: userError } = await supabaseClient
+                    .from('user_credentials')
+                    .select('*')
+                    .eq('user_id', uid)
+                    .eq('password', password)
+                    .maybeSingle(); // Use maybeSingle() instead of single()
+                
+                if (user) {
+                    console.log('User login successful');
+                    appState.currentUser = user;
+                    appState.isAdmin = false;
+                    showUserPage();
+                    return;
+                }
+
+                // If we get here, no matching credentials were found
+                console.log('Login failed - no matching credentials');
+                showLoginError('Invalid credentials');
+                
+            } catch (error) {
+                console.error('Login error:', error);
+                showLoginError('Login failed. Please try again.');
+            }
+        }
+
+        function showLoginError(message) {
+            document.getElementById('login-error').textContent = message;
+        }
+
+        function clearLoginError() {
+            document.getElementById('login-error').textContent = '';
+        }
+
+        function showAdminPage() {
+			appState.currentPage = 'admin';
+			appState.isAdmin = true;
+			document.getElementById('login-page').style.display = 'none';
+			document.getElementById('admin-page').style.display = 'block';
+			document.getElementById('user-page').style.display = 'none';
+			clearForm();
+		}
+		
+		function logout() {
+																												// Reset application state
+			appState.currentUser = null;
+			appState.isAdmin = false;
+			appState.currentPage = 'login';
+			appState.currentMode = 'ask';
+			appState.userMode = 'ask';
+			
+																												// Clear any form inputs
+			clearForm();
+			
+																												// Show login page and hide others
+			showLoginPage();
+			
+																												// Clear any stored credentials (if applicable)
+			document.getElementById('uid').value = '';
+			document.getElementById('password').value = '';
+			
+																												// Optional: Show a logout confirmation
+			alert('You have been logged out successfully.');
+		}
+
+        function showUserPage() {
+			appState.currentPage = 'user';
+			appState.isAdmin = false;
+			document.getElementById('login-page').style.display = 'none';
+			document.getElementById('admin-page').style.display = 'none';
+			document.getElementById('user-page').style.display = 'block';
+			applyUserSettings();
+			clearForm();
+		}
+
+        function showLoginPage() {
+			appState.currentPage = 'login';
+			document.getElementById('login-page').style.display = 'block';
+			document.getElementById('admin-page').style.display = 'none';
+			document.getElementById('user-page').style.display = 'none';
+			clearForm();
+			updateUserListDatalist();
+		}
+
+        
+
+        function clearForm() {
+            // Clear all input fields
+            const inputs = document.querySelectorAll('input[type="text"], input[type="password"], textarea, select');
+            inputs.forEach(input => {
+                if (input.type === 'select-multiple') {
+                    input.selectedIndex = -1;
+                } else {
+                    input.value = '';
+                }
+            });
+            
+            // Clear error messages
+            const errors = document.querySelectorAll('.error-message');
+            errors.forEach(error => error.textContent = '');
+        }
+
+        // Add this helper function to debug the application
+        function debugApplication() {
+            console.log('=== DEBUG INFO ===');
+            console.log('Current app state:', appState);
+            console.log('Supabase client:', supabaseClient);
+            console.log('Department select element:', document.getElementById('qa-department'));
+            console.log('Available departments:', appState.departments);
+            
+            // Check table structure
+            checkTableStructure();
+        }
+
+        // Update the showSection function to include debugging
+        function showSection(sectionName) {
+    try {
+        console.log('Showing section:', sectionName);
+        
+        // Hide all sections
+        const sections = document.querySelectorAll('.content-section');
+        sections.forEach(section => section.classList.add('hidden'));
+        
+        // Remove active class from all menu items
+        const menuItems = document.querySelectorAll('.menu-item');
+        menuItems.forEach(item => item.classList.remove('active'));
+        
+        // Show selected section
+        const targetSection = document.getElementById(sectionName + '-section');
+        if (targetSection) {
+            targetSection.classList.remove('hidden');
+        } else {
+            console.error('Section not found:', sectionName + '-section');
+            return;
+        }
+        
+        // Add active class to clicked menu item (safely)
+        if (event && event.target) {
+            event.target.classList.add('active');
+        }
+        
+        // Initialize section-specific content
+        initializeSection(sectionName);
+        
+    } catch (error) {
+        console.error('Error showing section:', sectionName, error);
+    }
+}
+
+       function initializeSection(sectionName) {
+    console.log('Initializing section:', sectionName);
+    
+    try {
+        switch(sectionName) {
+            case 'qa':
+                setMode('ask');
+                break;
+            case 'department':
+                updateDepartmentList();
+                break;
+            case 'user-management':
+                updateUserDepartmentSelect();
+                break;
+            case 'report':
+                initializeReportSection();
+                break;
+            case 'settings':
+                loadCurrentSettings();
+                break;
+            default:
+                console.log('No specific initialization needed for:', sectionName);
+        }
+    } catch (error) {
+        console.error('Error initializing section:', sectionName, error);
+    }
+}
+
+        // Q&A Mode Management
+        function setMode(mode) {
+    appState.currentMode = mode;
+    const answerField = document.getElementById('admin-answer');
+    const departmentSelect = document.getElementById('department-select');
+    const mediaSection = document.getElementById('media-section');
+    const adminButtons = document.getElementById('admin-buttons');
+    
+    if (mode === 'ask') {
+        if (answerField) answerField.readOnly = true;
+        if (departmentSelect) departmentSelect.classList.add('hidden');
+        if (mediaSection) mediaSection.classList.add('hidden');
+        if (adminButtons) adminButtons.classList.add('hidden');
+    } else if (mode === 'add') {
+        if (answerField) answerField.readOnly = false;
+        if (departmentSelect) departmentSelect.classList.remove('hidden');
+        if (mediaSection) mediaSection.classList.remove('hidden');
+        if (adminButtons) adminButtons.classList.remove('hidden');
+        updateDepartmentSelects();
+    }
+}
+
+
+        function setUserMode(mode) {
+    appState.userMode = mode;
+    const answerField = document.getElementById('user-answer');
+    const updateBtn = document.getElementById('user-update-btn');
+    
+    if (mode === 'ask') {
+        if (answerField) answerField.readOnly = true;
+        if (updateBtn) updateBtn.style.display = 'none';
+    } else if (mode === 'add') {
+        if (answerField) answerField.readOnly = false;
+        if (updateBtn) updateBtn.style.display = 'inline-block';
+    }
+}
+
+
+        // Question Input Handling with NLP-like prediction
+        function handleQuestionInput() {
+            const question = document.getElementById('admin-question').value.toLowerCase();
+            const predictionList = document.getElementById('admin-prediction-list');
+            
+            if (question.length > 2) {
+                const predictions = findSimilarQuestions(question);
+                displayPredictions(predictions, predictionList, 'admin');
+                
+                // If in ask mode, find and display answer
+                if (appState.currentMode === 'ask' && predictions.length > 0) {
+                    const exactMatch = predictions.find(p => 
+                        p.question.toLowerCase().includes(question.toLowerCase())
+                    );
+                    if (exactMatch) {
+                        document.getElementById('admin-answer').value = exactMatch.answer;
+                    }
+                }
+            } else {
+                predictionList.style.display = 'none';
+            }
+        }
+
+        function handleUserQuestionInput() {
+            const question = document.getElementById('user-question').value.toLowerCase();
+            const predictionList = document.getElementById('user-prediction-list');
+            
+            if (question.length > 2) {
+                const predictions = findSimilarQuestions(question);
+                displayPredictions(predictions, predictionList, 'user');
+                
+                // Auto-display answer for users
+                if (predictions.length > 0) {
+                    const bestMatch = predictions[0];
+                    document.getElementById('user-answer').value = bestMatch.answer;
+                    
+                    // Load media if available
+                    loadMediaForQuestion(bestMatch);
+                }
+            } else {
+                predictionList.style.display = 'none';
+                document.getElementById('user-answer').value = '';
+                document.getElementById('user-media-display').style.display = 'none';
+            }
+        }
+
+        function findSimilarQuestions(input) {
+            return appState.qaData.filter(qa => {
+                const question = qa.question.toLowerCase();
+                // Simple keyword matching for NLP-like behavior
+                const inputWords = input.split(' ').filter(word => word.length > 2);
+                return inputWords.some(word => question.includes(word));
+            }).slice(0, 5); // Limit to 5 predictions
+        }
+
+        function displayPredictions(predictions, container, type) {
+            if (predictions.length === 0) {
+                container.style.display = 'none';
+                return;
+            }
+            
+            container.innerHTML = '';
+            container.style.display = 'block';
+            
+            predictions.forEach(prediction => {
+                const item = document.createElement('div');
+                item.className = 'prediction-item';
+                item.textContent = prediction.question;
+                item.onclick = () => selectPrediction(prediction, type);
+                container.appendChild(item);
+            });
+        }
+
+        function selectPrediction(prediction, type) {
+            if (type === 'admin') {
+                document.getElementById('admin-question').value = prediction.question;
+                document.getElementById('admin-answer').value = prediction.answer;
+                document.getElementById('admin-prediction-list').style.display = 'none';
+            } else if (type === 'user') {
+                document.getElementById('user-question').value = prediction.question;
+                document.getElementById('user-answer').value = prediction.answer;
+                document.getElementById('user-prediction-list').style.display = 'none';
+                loadMediaForQuestion(prediction);
+            }
+        }
+
+        // Department Management
+        function updateDepartmentSelects() {
+    // Update user-management select as before if needed...
+			const userSelect = document.getElementById('user-department');
+			if (userSelect) {
+				userSelect.innerHTML = '<option value="">Choose Department</option>';
+				appState.departments.forEach(dept => {
+					const option = document.createElement('option');
+					option.value = dept;
+					option.textContent = dept;
+					userSelect.appendChild(option);
+				});
+			}
+
+    // For radio button group in Q&A
+			const radioGroup = document.getElementById('qa-department-radio');
+			if (radioGroup) {
+				radioGroup.innerHTML = '';
+        // "All" option
+				const allLabel = document.createElement('label');
+				allLabel.innerHTML = `<input type="radio" name="qa-department-radio" value="all"> All`;
+				radioGroup.appendChild(allLabel);
+
+				appState.departments.forEach(dept => {
+					const label = document.createElement('label');
+					label.innerHTML = `<input type="radio" name="qa-department-radio" value="${dept}"> ${dept}`;
+					radioGroup.appendChild(label);
+				});
+			}
+		}
+
+
+        // MODIFIED createDepartment function
+        async function createDepartment() {
+            const deptName = document.getElementById('dept-name').value.trim();
+            
+            if (!deptName) {
+                alert('Please enter a department name.');
+                return;
+            }
+            
+            if (!appState.currentUser || !appState.isAdmin) {
+                alert('Admin not logged in. Action denied.');
+                return;
+            }
+            const adminId = appState.currentUser.user_id;
+            
+            if (!supabaseClient) {
+                alert('Database connection not available');
+                return;
+            }
+            
+            try {
+                console.log('Creating department:', deptName);
+                
+                // Check for duplicate
+                const { data: existing, error: checkError } = await supabaseClient
+                    .from('department_list')
+                    .select('department_name')
+                    .eq('department_name', deptName)
+                    .maybeSingle();
+                
+                if (checkError && checkError.code !== 'PGRST116') {
+                    console.error('Error checking department:', checkError);
+                    alert('Error checking department: ' + checkError.message);
+                    return;
+                }
+                
+                if (existing) {
+                    alert('Department already exists');
+                    return;
+                }
+
+                // Insert new department
+                const { data: inserted, error: insertError } = await supabaseClient
+                    .from('department_list')
+                    .insert([{ 
+                        department_name: deptName, 
+                        created_by: adminId,
+                        created_at: new Date().toISOString()
+                    }])
+                    .select();
+                
+                if (insertError) {
+                    console.error('Error creating department:', insertError);
+                    alert('Error creating department: ' + insertError.message);
+                    return;
+                }
+                
+                console.log('Department created successfully:', inserted);
+                alert('Department created!');
+                await loadDepartments();
+                updateDepartmentList();
+                document.getElementById('dept-name').value = '';
+            } catch (error) {
+                console.error('Error in createDepartment:', error);
+                alert('Error creating department: ' + error.message);
+            }
+        }
+
+        function updateDepartmentList() {
+            const container = document.getElementById('dept-items');
+            container.innerHTML = '';
+            
+            appState.departments.forEach((dept, index) => {
+                const item = document.createElement('div');
+                item.className = 'department-item';
+                item.innerHTML = `
+                    <span>${dept}</span>
+                    <button class="btn" onclick="deleteDepartment('${dept}')">Delete</button>
+                `;
+                container.appendChild(item);
+            });
+        }
+
+        // Fixed deleteDepartment function
+        async function deleteDepartment(deptName) {
+            if (confirm('Are you sure you want to delete this department?')) {
+                try {
+                    const { error } = await supabaseClient
+                        .from('department_list')
+                        .delete()
+                        .eq('department_name', deptName);
+                    
+                    if (error) {
+                        console.error('Error deleting department:', error);
+                        alert('Error deleting department');
+                        return;
+                    }
+                    
+                    await loadDepartments();
+                    updateDepartmentSelects();
+                    updateDepartmentList();
+                    alert('Department deleted successfully');
+                } catch (error) {
+                    console.error('Error in deleteDepartment:', error);
+                    alert('Error deleting department');
+                }
+            }
+        }
+
+        // User Management
+        function updateUserDepartmentSelect() {
+            const select = document.getElementById('user-department');
+            select.innerHTML = '<option value="">Choose Department</option>';
+            
+            appState.departments.forEach(dept => {
+                const option = document.createElement('option');
+                option.value = dept;
+                option.textContent = dept;
+                select.appendChild(option);
+            });
+        }
+
+        // Fixed createUser function
+        async function createUser() {
+            const department = document.getElementById('user-department').value;
+            const username = document.getElementById('new-username').value.trim();
+            const password = document.getElementById('new-user-password').value;
+            
+            // Clear previous errors
+            document.getElementById('dept-error').textContent = '';
+            document.getElementById('username-error').textContent = '';
+            
+            if (!department) {
+                document.getElementById('dept-error').textContent = 'Please select the department';
+                return;
+            }
+            
+            if (!username || !password) {
+                alert('Please fill all fields');
+                return;
+            }
+            
+            try {
+                // Check if user already exists
+                const { data: existingUser, error: checkError } = await supabaseClient
+                    .from('user_credentials')
+                    .select('user_id')
+                    .eq('user_id', username.toLowerCase());
+                
+                if (checkError) {
+                    console.error('Error checking user:', checkError);
+                    alert('Error checking user');
+                    return;
+                }
+                
+                if (existingUser && existingUser.length > 0) {
+                    document.getElementById('username-error').textContent = 'User name already used';
+                    return;
+                }
+                
+                // Insert new user
+                const { error: insertError } = await supabaseClient
+                    .from('user_credentials')
+                    .insert([{
+                        user_id: username.toLowerCase(),
+                        password: password,
+                        department: department
+                    }]);
+                
+                if (insertError) {
+                    console.error('Error creating user:', insertError);
+                    alert('Error creating user');
+                    return;
+                }
+                
+                alert('User created successfully');
+                await loadUsers();
+                
+                // Clear fields
+                document.getElementById('user-department').value = '';
+                document.getElementById('new-username').value = '';
+                document.getElementById('new-user-password').value = '';
+            } catch (error) {
+                console.error('Error in createUser:', error);
+                alert('Error creating user');
+            }
+        }
+		
+        // **** FIXED CODE **** The function now gets the uniquely named div
+        function showUserList() {
+            const userList = document.getElementById('user-management-list-container');
+            const userItems = document.getElementById('user-items');
+            
+            userList.classList.toggle('hidden');
+            
+            if (!userList.classList.contains('hidden')) {
+                userItems.innerHTML = '';
+                
+                appState.users.forEach((user) => {
+                    const item = document.createElement('div');
+                    item.className = 'department-item';
+                    item.innerHTML = `
+                        <span>${user.user_id} (${user.department})</span>
+                        <button class="btn" onclick="deleteUser('${user.user_id}')">Delete</button>
+                    `;
+                    userItems.appendChild(item);
+                });
+            }
+        }
+
+        // Fixed deleteUser function
+        async function deleteUser(userId) {
+            if (confirm('Are you sure you want to delete this user?')) {
+                try {
+                    const { error } = await supabaseClient
+                        .from('user_credentials')
+                        .delete()
+                        .eq('user_id', userId);
+                    
+                    if (error) {
+                        console.error('Error deleting user:', error);
+                        alert('Error deleting user');
+                        return;
+                    }
+                    
+                    await loadUsers();
+                    showUserList(); // Refresh the list
+                    alert('User deleted successfully');
+                } catch (error) {
+                    console.error('Error in deleteUser:', error);
+                    alert('Error deleting user');
+                }
+            }
+        }
+
+        // Q&A Data Management - Enhanced with better error handling and debugging
+        async function saveQA() {
+			const question = document.getElementById('admin-question').value.trim();
+			const answer = document.getElementById('admin-answer').value.trim();
+			const selectedDeptRadio = document.querySelector('input[name="qa-department-radio"]:checked');
+			const selectedDepartment = selectedDeptRadio ? selectedDeptRadio.value : '';
+
+			if (!question || !answer) {
+				alert('Please fill question and answer fields');
+				return;
+			}
+			if (!selectedDepartment) {
+				alert('Please select a department');
+				return;
+			}
+			if (!supabaseClient) {
+				alert('Database connection not available');
+				return;
+			}
+
+    // Continue with your code for video, image, etc...
+
+			const qaItem = {
+				question: question,
+				answer: answer,
+				departments: selectedDepartment,
+				created_at: new Date().toISOString()
+        // add other fields as needed
+			};
+
+    // Now insert into Supabase
+			const { error } = await supabaseClient
+				.from('qa')
+				.insert([qaItem]);
+
+			if (error) {
+				alert('Error saving Q&A: ' + error.message);
+				return;
+			}
+
+			alert('Question and answer saved successfully');
+			await loadQA();
+			clearForm();
+		}
+
+
+        // Enhanced function to get selected images
+        function getSelectedImages() {
+            const fileInput = document.getElementById('image-upload');
+            if (fileInput && fileInput.files && fileInput.files.length > 0) {
+                const fileNames = Array.from(fileInput.files).map(file => file.name);
+                return fileNames.join(',');
+            }
+            return null; // Return null instead of empty string
+        }
+
+        // Add a function to check table structure
+        async function checkTableStructure() {
+            try {
+                if (!supabaseClient) {
+                    console.error('Supabase client not available');
+                    return;
+                }
+                
+                // Try to get one record to see the structure
+                const { data, error } = await supabaseClient
+                    .from('qa')
+                    .select()
+                    .limit(1);
+                
+                if (error) {
+                    console.error('Error checking table structure:', error);
+                } else {
+                    console.log('Table structure (based on existing data):', data);
+                    if (data && data.length > 0) {
+                        console.log('Available columns:', Object.keys(data[0]));
+                    } else {
+                        console.log('No existing data to check structure');
+                    }
+                }
+            } catch (error) {
+                console.error('Exception checking table structure:', error);
+            }
+        }
+
+        // Media Management
+        function addVideo() {
+            const videoInput = document.getElementById('video-link');
+            videoInput.style.display = videoInput.style.display === 'none' ? 'block' : 'none';
+        }
+
+        function addImage() {
+            const imageInput = document.getElementById('image-upload');
+            imageInput.style.display = imageInput.style.display === 'none' ? 'block' : 'none';
+        }
+
+        function loadMediaForQuestion(qa) {
+            const mediaDisplay = document.getElementById('user-media-display');
+            mediaDisplay.innerHTML = '';
+            
+            // Handle both old and new column names
+            const videoUrl = qa.video || qa.video_url;
+            const imageUrls = qa.image || qa.image_urls;
+            
+            if (videoUrl || imageUrls) {
+                mediaDisplay.style.display = 'block';
+                
+                if (videoUrl) {
+                    const videoDiv = document.createElement('div');
+                    videoDiv.innerHTML = `<h4>Video:</h4><p><a href="${videoUrl}" target="_blank">View Video</a></p>`;
+                    mediaDisplay.appendChild(videoDiv);
+                }
+                
+                if (imageUrls) {
+                    const imageDiv = document.createElement('div');
+                    imageDiv.innerHTML = `<h4>Images:</h4><p>${imageUrls}</p>`;
+                    mediaDisplay.appendChild(imageDiv);
+                }
+            } else {
+                mediaDisplay.style.display = 'none';
+            }
+        }
+
+        function showUserVideo() {
+            const mediaDisplay = document.getElementById('user-media-display');
+            const currentQA = getCurrentUserQA();
+            
+            if (currentQA) {
+                const videoUrl = currentQA.video || currentQA.video_url;
+                if (videoUrl) {
+                    mediaDisplay.style.display = 'block';
+                    mediaDisplay.innerHTML = `<h4>Video:</h4><iframe width="100%" height="200" src="${videoUrl}"></iframe>`;
+                    return;
+                }
+            }
+            alert('No video available');
+        }
+
+        function showUserImage() {
+            const mediaDisplay = document.getElementById('user-media-display');
+            const currentQA = getCurrentUserQA();
+            
+            if (currentQA) {
+                const imageUrls = currentQA.image || currentQA.image_urls;
+                if (imageUrls) {
+                    mediaDisplay.style.display = 'block';
+                    mediaDisplay.innerHTML = `<h4>Images:</h4><p>${imageUrls}</p>`;
+                    return;
+                }
+            }
+            alert('No image available');
+        }
+
+        function getCurrentUserQA() {
+            const question = document.getElementById('user-question').value;
+            return appState.qaData.find(qa => qa.question === question);
+        }
+		//function for Edit & Update
+		async function editUpdate() {
+			const question = document.getElementById('admin-question').value.trim();
+			const answer = document.getElementById('admin-answer').value.trim();
+			const selectedDeptRadio = document.querySelector('input[name="qa-department-radio"]:checked');
+			const selectedDepartment = selectedDeptRadio ? selectedDeptRadio.value : '';
+
+			if (!question || !answer) {
+				alert('Please fill question and answer fields');
+				return;
+			}
+			if (!selectedDepartment) {
+				alert('Please select a department');
+				return;
+			}
+			if (!supabaseClient) {
+				alert('Database connection not available');
+				return;
+			}
+
+    // Find existing QA record
+			const existingQA = appState.qaData.find(q => q.question === question);
+			if (!existingQA) {
+				alert('No matching question found to update.');
+				return;
+			}
+
+    // Prepare update object
+			const updateFields = {
+				answer: answer,
+				departments: selectedDepartment,
+				updated_at: new Date().toISOString()
+			};
+
+    // Optionally update video/image if you allow it
+			const videoUrl = document.getElementById('video-link').value.trim();
+			const imageData = getSelectedImages();
+			if (videoUrl) updateFields.video_url = videoUrl;
+			if (imageData) updateFields.image_urls = imageData;
+
+			try {
+				const { error } = await supabaseClient
+				.from('qa')
+				.update(updateFields)
+				.eq('id', existingQA.id); // Update by primary key
+
+				if (error) {
+					alert('Failed to update Q&A: ' + error.message);
+					return;
+				}
+				alert('Q&A updated successfully!');
+				await loadQA();
+				clearForm();
+			} catch (err) {
+				alert('Error updating Q&A');
+				console.error(err);
+			}
+		}
+		
+		// Create a helper function for consistent field access
+		function getQAField(qa, fieldName) {
+			const fieldMappings = {
+				department: qa.departments || qa.department,
+				video: qa.video_url || qa.video,
+				image: qa.image_urls || qa.image
+			};
+			return fieldMappings[fieldName] || qa[fieldName];
+		}
+		
+		
+		// Wrap async operations with better error handling
+		async function safeAsync(operation, errorMessage) {
+			try {
+				return await operation();
+			} catch (error) {
+				console.error(errorMessage, error);
+				throw new Error(`${errorMessage}: ${error.message}`);
+			}
+		}
+
+
+        // Suggestions Management
+        async function submitSuggestion() {
+            const question = document.getElementById('user-question').value;
+            const answer = document.getElementById('user-answer').value;
+            const suggestion = document.getElementById('user-suggestion').value.trim();
+            
+            if (!suggestion) {
+                alert('Please enter a suggestion');
+                return;
+            }
+            
+            try {
+                const suggestionItem = {
+                    question: question,
+                    answer: answer,
+                    suggestion: suggestion,
+                    status: 'pending',
+                    user_id: appState.currentUser.user_id,
+                    created_at: new Date().toISOString()
+                };
+                
+                const { error } = await supabaseClient
+                    .from('suggestions')
+                    .insert([suggestionItem]);
+                
+                if (error) {
+                    console.error('Error submitting suggestion:', error);
+                    alert('Error submitting suggestion');
+                    return;
+                }
+                
+                await loadSuggestions();
+                alert('Suggestion submitted successfully');
+                document.getElementById('user-suggestion').value = '';
+            } catch (error) {
+                console.error('Error in submitSuggestion:', error);
+                alert('Error submitting suggestion');
+            }
+        }
+
+		function showSuggestions() {
+    // Hide Q&A section (or whatever is currently visible)
+			document.getElementById('qa-section').style.display = 'none';
+        
+    // Show suggestions list
+			const suggDiv = document.getElementById('pending-suggestions-list');
+			suggDiv.style.display = 'block';
+
+		}
+    
+		function closeSuggestions() {
+    // You can restore the original Q&A section view.
+    // Easiest: re-initialize the section
+			document.getElementById('pending-suggestions-list').style.display = 'none';
+			document.getElementById('qa-section').style.display = 'block';
+		}
+
+		async function markSuggestionResolved(id) {
+			if (!supabaseClient) return;
+    // Update status to resolved in Supabase
+			const { error } = await supabaseClient
+				.from('suggestions')
+				.update({ status: 'resolved', updated_at: new Date().toISOString() })
+				.eq('id', id);
+			if (error) {
+				alert('Failed to mark as resolved');
+				return;
+			}
+    // Refresh suggestions and UI
+			await loadSuggestions();
+			showSuggestions();
+		}
+
+
+        // Settings Management
+        function loadCurrentSettings() {
+            document.getElementById('current-name').value = document.getElementById('site-title').textContent;
+            
+            // Load radio button states
+            document.querySelector(`input[name="show-users"][value="${appState.settings.showUserList ? 'yes' : 'no'}"]`).checked = true;
+            document.querySelector(`input[name="user-suggestions"][value="${appState.settings.allowSuggestions ? 'yes' : 'no'}"]`).checked = true;
+            document.querySelector(`input[name="user-corrections"][value="${appState.settings.allowCorrections ? 'yes' : 'no'}"]`).checked = true;
+            
+            // Load checkboxes
+            document.querySelector('input[name="allow-media"][value="video"]').checked = appState.settings.allowVideo;
+            document.querySelector('input[name="allow-media"][value="image"]').checked = appState.settings.allowImage;
+        }
+
+        function changePageName() {
+            const newName = document.getElementById('new-page-name').value.trim();
+            if (newName) {
+                document.getElementById('site-title').textContent = newName;
+                document.getElementById('current-name').value = newName;
+                alert('Page name changed successfully');
+            }
+        }
+		
+		function saveSettings() {
+			appState.settings.showUserList = document.querySelector('input[name="show-users"]:checked').value === 'yes';
+    // ...rest of settings...
+			alert('Settings saved successfully');
+			if (appState.currentPage === 'user') {
+				applyUserSettings();
+			}
+    // ADD THIS:
+			updateUserListDatalist();
+		}
+
+
+        function applyUserSettings() {
+            // Show/hide Add button based on corrections setting
+            const addBtn = document.getElementById('user-add-btn');
+            addBtn.style.display = appState.settings.allowCorrections ? 'inline-block' : 'none';
+            
+            // Enable/disable suggestion box
+            const suggestionBox = document.querySelector('.suggestion-box');
+            suggestionBox.style.display = appState.settings.allowSuggestions ? 'block' : 'none';
+        }
+
+        // Admin Credentials Management
+        async function saveAdminCredentials() {
+            const userId = document.getElementById('admin-userid').value.trim();
+            const password = document.getElementById('admin-password').value;
+            const rePassword = document.getElementById('admin-repassword').value;
+            
+            if (!userId || !password || !rePassword) {
+                alert('Please fill all fields');
+                return;
+            }
+            
+            if (password !== rePassword) {
+                alert('Passwords do not match');
+                return;
+            }
+            
+            try {
+                const { error } = await supabaseClient
+                    .from('admin_credentials')
+                    .insert([{
+                        user_id: userId.toLowerCase(),
+                        password: password,
+                        created_at: new Date().toISOString()
+                    }]);
+                
+                if (error) {
+                    console.error('Error saving admin credentials:', error);
+                    alert('Error saving admin credentials');
+                    return;
+                }
+                
+                alert('Admin credentials saved successfully');
+                clearForm();
+            } catch (error) {
+                console.error('Error in saveAdminCredentials:', error);
+                alert('Error saving admin credentials');
+            }
+        }
+
+        function editAdminCredentials() {
+            const editSection = document.getElementById('edit-admin');
+            editSection.classList.toggle('hidden');
+        }
+
+        async function changeAdminPassword() {
+            const currentId = document.getElementById('current-admin-id').value.toLowerCase().trim();
+            const currentPassword = document.getElementById('current-admin-password').value;
+            const newPassword = document.getElementById('new-admin-password').value;
+            const reNewPassword = document.getElementById('new-admin-repassword').value;
+            
+            if (!currentId || !currentPassword || !newPassword || !reNewPassword) {
+                alert('Please fill all fields');
+                return;
+            }
+            
+            if (newPassword !== reNewPassword) {
+                alert('New passwords do not match');
+                return;
+            }
+            
+            try {
+                // Verify current credentials
+                const { data: admin, error: verifyError } = await supabaseClient
+                    .from('admin_credentials')
+                    .select('*')
+                    .eq('user_id', currentId)
+                    .eq('password', currentPassword)
+                    .single();
+                
+                if (verifyError || !admin) {
+                    alert('Current credentials are incorrect');
+                    return;
+                }
+                
+                // Update password
+                const { error: updateError } = await supabaseClient
+                    .from('admin_credentials')
+                    .update({
+                        password: newPassword,
+                        updated_at: new Date().toISOString()
+                    })
+                    .eq('user_id', currentId);
+                
+                if (updateError) {
+                    console.error('Error updating admin password:', updateError);
+                    alert('Error updating password');
+                    return;
+                }
+                
+                alert('Password changed successfully');
+                document.getElementById('edit-admin').classList.add('hidden');
+                clearForm();
+            } catch (error) {
+                console.error('Error in changeAdminPassword:', error);
+                alert('Error changing password');
+            }
+        }
+
+        // User Password Change
+        function showChangeUserPassword() {
+            const section = document.getElementById('change-user-password');
+            section.classList.toggle('hidden');
+        }
+
+        async function changeUserPassword() {
+            const userId = document.getElementById('user-current-id').value.toLowerCase().trim();
+            const currentPassword = document.getElementById('user-current-password').value;
+            const newPassword = document.getElementById('user-new-password').value;
+            const reNewPassword = document.getElementById('user-new-repassword').value;
+            
+            if (!userId || !currentPassword || !newPassword || !reNewPassword) {
+                alert('Please fill all fields');
+                return;
+            }
+            
+            if (newPassword !== reNewPassword) {
+                alert('New passwords do not match');
+                return;
+            }
+            
+                      try {
+                // Verify current credentials
+                const { data: user, error: verifyError } = await supabaseClient
+                    .from('user_credentials')
+                    .select('*')
+                    .eq('user_id', userId)
+                    .eq('password', currentPassword)
+                    .single();
+                
+                if (verifyError || !user) {
+                    alert('Current credentials are incorrect');
+                    return;
+                }
+                
+                // Update password
+                const { error: updateError } = await supabaseClient
+                    .from('user_credentials')
+                    .update({
+                        password: newPassword,
+                        updated_at: new Date().toISOString()
+                    })
+                    .eq('user_id', userId);
+                
+                if (updateError) {
+                    console.error('Error updating user password:', updateError);
+                    alert('Error updating password');
+                    return;
+                }
+                
+                alert('Password changed successfully');
+                document.getElementById('change-user-password').classList.add('hidden');
+                clearForm();
+            } catch (error) {
+                console.error('Error in changeUserPassword:', error);
+                alert('Error changing password');
+            }
+        }
+
+        async function updateUserAnswer() {
+            const question = document.getElementById('user-question').value;
+            const answer = document.getElementById('user-answer').value;
+            
+            if (!question || !answer) {
+                alert('Please fill both question and answer fields');
+                return;
+            }
+            
+            try {
+                // Check if Q&A exists
+                const { data: existingQA, error: checkError } = await supabaseClient
+                    .from('qa')
+                    .select('*')
+                    .eq('question', question)
+                    .single();
+                
+                if (existingQA && !checkError) {
+                    // Update existing Q&A
+                    const { error: updateError } = await supabaseClient
+                        .from('qa')
+                        .update({
+                            answer: answer,
+                            updated_at: new Date().toISOString()
+                        })
+                        .eq('question', question);
+                    
+                    if (updateError) {
+                        console.error('Error updating answer:', updateError);
+                        alert('Error updating answer');
+                        return;
+                    }
+                    
+                    alert('Answer updated successfully');
+                } else {
+                    // Create new Q&A
+                    const { error: insertError } = await supabaseClient
+                        .from('qa')
+                        .insert([{
+                            question: question,
+                            answer: answer,
+                            department: appState.currentUser.department,
+                            video: '',
+                            image: '',
+                            created_at: new Date().toISOString()
+                        }]);
+                    
+                    if (insertError) {
+                        console.error('Error adding new Q&A:', insertError);
+                        alert('Error adding new Q&A');
+                        return;
+                    }
+                    
+                    alert('New question and answer added successfully');
+                }
+                
+                await loadQA();
+            } catch (error) {
+                console.error('Error in updateUserAnswer:', error);
+                alert('Error updating answer');
+            }
+        }
+
+        // Report Management
+        function initializeReportSection() {
+            // Populate department lists in report section
+            const userReportDepts = document.getElementById('user-report-depts');
+            const qaReportDepts = document.getElementById('qa-report-depts');
+            
+            userReportDepts.innerHTML = '';
+            qaReportDepts.innerHTML = '';
+            
+            appState.departments.forEach(dept => {
+                const userLink = document.createElement('a');
+                userLink.href = '#';
+                userLink.className = 'report-link report-sublink';
+                userLink.textContent = dept;
+                userLink.onclick = () => showUserReportForDept(dept);
+                userReportDepts.appendChild(userLink);
+                
+                const qaLink = document.createElement('a');
+                qaLink.href = '#';
+                qaLink.className = 'report-link report-sublink';
+                qaLink.textContent = dept;
+                qaLink.onclick = () => showQAReportForDept(dept);
+                qaReportDepts.appendChild(qaLink);
+            });
+        }
+
+        function showUserReport() {
+            const deptList = document.getElementById('user-report-depts');
+            deptList.classList.toggle('hidden');
+        }
+
+        function showQAReport() {
+            const deptList = document.getElementById('qa-report-depts');
+            deptList.classList.toggle('hidden');
+        }
+
+        function showSuggestionsReport() {
+            const linksList = document.getElementById('suggestions-report-links');
+            linksList.classList.toggle('hidden');
+        }
+
+        function showUserReportForDept(department) {
+            const reportDisplay = document.getElementById('report-display');
+            const deptUsers = appState.users.filter(user => user.department === department);
+            
+            let html = `<h3>User Report - ${department}</h3>`;
+            html += '<table><tr><th>User ID</th><th>Department</th><th>Created At</th></tr>';
+            
+            deptUsers.forEach(user => {
+                html += `<tr><td>${user.user_id}</td><td>${user.department}</td><td>${user.created_at || 'N/A'}</td></tr>`;
+            });
+            
+            html += '</table>';
+            reportDisplay.innerHTML = html;
+        }
+
+        function showQAReportForDept(department) {
+            const reportDisplay = document.getElementById('report-display');
+            const deptQAs = appState.qaData.filter(qa => {
+                // Handle both 'department' and 'departments' column names
+                const deptField = qa.department || qa.departments || '';
+                return deptField === 'all' || deptField.includes(department);
+            });
+            
+            let html = `<h3>Q&A Report - ${department}</h3>`;
+            html += '<table><tr><th>Question</th><th>Answer</th><th>Departments</th><th>Created At</th></tr>';
+            
+            deptQAs.forEach(qa => {
+                const deptField = qa.department || qa.departments || 'N/A';
+                html += `<tr><td>${qa.question}</td><td>${qa.answer.substring(0, 100)}${qa.answer.length > 100 ? '...' : ''}</td><td>${deptField}</td><td>${qa.created_at || 'N/A'}</td></tr>`;
+            });
+            
+            html += '</table>';
+            reportDisplay.innerHTML = html;
+        }
+
+        function showSuggestionsList(type) {
+            const reportDisplay = document.getElementById('report-display');
+            let filteredSuggestions = appState.suggestions;
+            
+            if (type === 'pending') {
+                filteredSuggestions = appState.suggestions.filter(s => s.status === 'pending');
+            } else if (type === 'solved') {
+                filteredSuggestions = appState.suggestions.filter(s => s.status === 'resolved');
+            }
+            
+            let html = `<h3>Suggestions - ${type.charAt(0).toUpperCase() + type.slice(1)}</h3>`;
+            html += '<table><tr><th>Question</th><th>Answer</th><th>Suggestion</th><th>Status</th><th>User</th><th>Action</th></tr>';
+            
+            filteredSuggestions.forEach(suggestion => {
+                html += `<tr>
+                    <td>${suggestion.question || 'N/A'}</td>
+                    <td>${(suggestion.answer || 'N/A').substring(0, 50)}${suggestion.answer && suggestion.answer.length > 50 ? '...' : ''}</td>
+                    <td>${suggestion.suggestion}</td>
+                    <td>
+                        <span class="btn ${suggestion.status === 'pending' ? 'status-pending' : 'status-resolved'}">
+                            ${suggestion.status.charAt(0).toUpperCase() + suggestion.status.slice(1)}
+                        </span>
+                    </td>
+                    <td>${suggestion.user_id || 'N/A'}</td>
+                    <td>
+                        <button class="btn" onclick="toggleSuggestionStatus('${suggestion.id}')">
+                            ${suggestion.status === 'pending' ? 'Mark Resolved' : 'Mark Pending'}
+                        </button>
+                    </td>
+                </tr>`;
+            });
+            
+            html += '</table>';
+            reportDisplay.innerHTML = html;
+        }
+
+        async function toggleSuggestionStatus(suggestionId) {
+            try {
+                const suggestion = appState.suggestions.find(s => s.id == suggestionId);
+                if (!suggestion) {
+                    alert('Suggestion not found');
+                    return;
+                }
+                
+                const newStatus = suggestion.status === 'pending' ? 'resolved' : 'pending';
+                
+                const { error } = await supabaseClient
+                    .from('suggestions')
+                    .update({
+                        status: newStatus,
+                        updated_at: new Date().toISOString()
+                    })
+                    .eq('id', suggestionId);
+                
+                if (error) {
+                    console.error('Error updating suggestion status:', error);
+                    alert('Error updating suggestion status');
+                    return;
+                }
+                
+                await loadSuggestions();
+                
+                // Refresh the current suggestions view
+                const currentType = document.querySelector('.report-content h3')?.textContent.split(' - ')[1]?.toLowerCase() || 'all';
+                showSuggestionsList(currentType);
+                
+                alert('Suggestion status updated successfully');
+            } catch (error) {
+                console.error('Error in toggleSuggestionStatus:', error);
+                alert('Error updating suggestion status');
+            }
+        }
+		
+
+		async function exportExcel() {
+			const fileInput = document.getElementById('excel-upload');
+			const file = fileInput.files[0];
+			if (!file) {
+				alert('Please select an Excel file.');
+				return;
+			}
+
+    // Read the Excel file using SheetJS
+			const reader = new FileReader();
+			reader.onload = async function(e) {
+				try {
+					const data = new Uint8Array(e.target.result);
+					const workbook = XLSX.read(data, {type: 'array'});
+					const sheetName = workbook.SheetNames[0];
+					const worksheet = workbook.Sheets[sheetName];
+
+            // Convert to JSON
+					const rows = XLSX.utils.sheet_to_json(worksheet);
+
+					if (rows.length === 0) {
+						alert('Excel file is empty or format is not supported.');
+						return;
+					}
+
+            // Optional: check expected columns
+            // You might need to map Excel headers to your QA table fields
+            // Example expected columns: question, answer, departments
+					for (let row of rows) {
+                // Clean or map as needed
+                // If your columns are named differently in Excel, update these lines!
+						const qaItem = {
+							question: row.question || row.Question || '',
+							answer: row.answer || row.Answer || '',
+							departments: row.departments || row.Departments || '', // could be "all" or comma-separated
+							created_at: new Date().toISOString()
+						};
+
+                // Skip empty rows
+						if (!qaItem.question || !qaItem.answer) continue;
+
+                // Insert into Supabase
+						const { error } = await supabaseClient
+							.from('qa')
+							.insert([qaItem]);
+
+						if (error) {
+							console.error('Error uploading QA row:', error);
+							alert('Error uploading some data: ' + error.message);
+							return;
+						}
+					}
+
+					alert('Excel data exported successfully!');
+					await loadQA(); // Reload data for app
+				} catch (err) {
+					console.error('Error reading Excel:', err);
+					alert('Failed to process Excel file.');
+				}
+			};
+			reader.readAsArrayBuffer(file);
+		}
+        function updateUserListDatalist() {
+			const datalist = document.getElementById('user-list');
+			if (!datalist) return;
+			datalist.innerHTML = "";
+
+    // If you store as string "yes"/"no":
+			if (appState.settings && appState.settings.showUserList && appState.settings.showUserList === "yes") {
+				appState.users.forEach(user => {
+					const option = document.createElement('option');
+					option.value = user.uid || user.name || user; // adjust based on your users structure
+					datalist.appendChild(option);
+				});
+			}
+    // If NO, datalist stays empty (no user dropdown)
+		}
+
+
+        // Create a simple test function to check database connectivity
+        async function testDatabaseConnection() {
+            try {
+                console.log('Testing database connection...');
+                
+                if (!supabaseClient) {
+                    console.error('Supabase client not initialized');
+                    return false;
+                }
+                
+                // Try a simple select to test connection
+                const { data, error } = await supabaseClient
+                    .from('qa')
+                    .select('count', { count: 'exact', head: true });
+                
+                if (error) {
+                    console.error('Database connection test failed:', error);
+                    return false;
+                }
+                
+                console.log('Database connection successful. Record count:', data);
+                return true;
+            } catch (error) {
+                console.error('Exception testing database connection:', error);
+                return false;
+            }
+        }
+
+        // Add a simplified save function for testing
+        
+        // Error handling wrapper for async functions
+        function handleAsync(asyncFn) {
+            return async function(...args) {
+                try {
+                    await asyncFn.apply(this, args);
+                } catch (error) {
+                    console.error('Async operation failed:', error);
+                    alert('An error occurred. Please try again.');
+                }
+            };
+        }
+
+        // Initialize helpers when DOM is ready
+        document.addEventListener('DOMContentLoaded', function() {
+           // initializeHelpers();
+		    setupEventListeners();
+            loadInitialData();
+        });
+		
+
+		function updateUserListDatalist() {
+			const datalist = document.getElementById('user-list');
+			if (!datalist) return;
+			datalist.innerHTML = "";
+
+    // Only show user list if admin says "yes"
+			if (appState.settings.showUserList) {
+				appState.users.forEach(user => {
+					const option = document.createElement('option');
+					option.value = user.user_id;
+					datalist.appendChild(option);
+				});
+			}
+		}
+		async function saveSettings() {
+    // Show feedback (optional)
+			const saveBtn = document.getElementById('save-settings-btn');
+			if (saveBtn) saveBtn.disabled = true;
+
+    // Gather settings as before
+			appState.settings.showUserList = document.querySelector('input[name="show-users"]:checked').value === 'yes';
+    // ...other settings...
+
+    // Save to Supabase (asynchronous!)
+			const { error } = await supabaseClient
+				.from('settings')
+				.update(appState.settings)
+				.eq('id', appState.settings.id); // Or use your table's PK
+
+    // Re-enable button
+			if (saveBtn) saveBtn.disabled = false;
+
+			if (error) {
+				alert('Error saving settings: ' + error.message);
+				return;
+			}
+
+    // Optionally show success message
+			alert('Settings saved successfully!');
+
+    // Update user list if relevant
+			updateUserListDatalist();
+		}
+		async function loadSettings() {
+			let { data, error } = await supabaseClient
+				.from('settings')
+				.select('*')
+				.maybeSingle(); // gets the first or only row
+
+			if (error || !data) {
+				console.error('Failed to load settings:', error);
+				// Initialize with default settings if none are found in the DB
+				// This prevents errors if the settings table is empty.
+				appState.settings = { 
+					id: null, 
+					showUserList: false, 
+					allowSuggestions: true, 
+					allowCorrections: false, 
+					allowVideo: false, 
+					allowImage: false 
+				};
+				return;
+			}
+			appState.settings = data; // now has .id, .showUserList, etc.
+		}
+
+</script>
+</body>
+</html>
