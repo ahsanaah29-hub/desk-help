@@ -715,7 +715,7 @@
         <div class="user-header">
     		<span class="header-title">User Mode</span>
    			<div class="header-buttons">
-       	 		<button type="button" class="btn" onclick="event.preventDefault(); ChangeUserPassword();">
+       	 		<button type="button" class="btn" onclick="event.preventDefault(); showChangeUserPassword();">
            			Change Password
         		</button>
         		<button type="button" class="btn logout-btn" onclick="logout()">Logout</button>
@@ -2116,10 +2116,8 @@
 
         // User Password Change
         function showChangeUserPassword() {
-            const section = document.getElementById('change-user-password');
-            section.classList.toggle('hidden');
-        }
-
+    document.getElementById('change-user-password').style.display = 'block';
+		}
         async function changeUserPassword() {
             const userId = document.getElementById('user-current-id').value.toLowerCase().trim();
             const currentPassword = document.getElementById('user-current-password').value;
