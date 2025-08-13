@@ -713,11 +713,14 @@
 
     <div id="user-page" class="user-container">
         <div class="user-header">
-    <span class="header-title">User Mode</span>
-    <div class="header-buttons">
-        <button type="button" class="btn" onclick="showChangeUserPassword()">Change Password</button>
-        <button type="button" class="btn logout-btn" onclick="logout()">Logout</button>
-    </div>
+    		<span class="header-title">User Mode</span>
+   			<div class="header-buttons">
+       	 		<button type="button" class="btn" onclick="event.preventDefault(); showChangeUserPassword();">
+           			Change Password
+        		</button>
+        		<button type="button" class="btn logout-btn" onclick="logout()">Logout</button>
+    		</div>
+		</div>
 </div>
         
         <div class="qa-buttons">
