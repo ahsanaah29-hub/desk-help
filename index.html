@@ -506,7 +506,7 @@
 				<button class="menu-item" onclick="showSection('user-management')">User Management</button>
 				<button class="menu-item" onclick="showSection('report')">Report</button>
 				<button class="menu-item" onclick="showSection('settings')">Settings</button>
-				<button class="menu-item" onclick="showSection('change-password')">Change Password</button>
+				<button class="menu-item" onclick="openChangePassword('admin')">Change Password</button>
 				<button class="menu-item" onclick="logout()">Logout</button> 													</div>
             
             <div class="main-content">
@@ -729,7 +729,7 @@
         <div class="user-header">
     		<span class="header-title">User Mode</span>
    			<div class="header-buttons">
-       	 		<button type="button" class="btn" onclick="event.preventDefault(); showChangeUserPassword();">
+       	 		<button type="button" class="btn" onclick="event.preventDefault(); openChangePassword('user');">
            			Change Password
         		</button>
         		<button type="button" class="btn logout-btn" onclick="logout()">Logout</button>
@@ -2122,8 +2122,17 @@
                 }
                 
                 alert('Password changed successfully');
-                document.getElementById('edit-admin').classList.add('hidden');
-                clearForm();
+				if (window.opener) {
+ 			 		if (confirm('Close this tab and return to the previous page?')) {
+   					 window.close();
+  					} else {
+   					 document.getElementById('edit-admin')?.classList.add('hidden');
+   					 clearForm();
+  					}
+					} else {
+  					 document.getElementById('edit-admin')?.classList.add('hidden');
+  					 clearForm();
+					}
             } catch (error) {
                 console.error('Error in changeAdminPassword:', error);
                 alert('Error changing password');
@@ -2182,14 +2191,62 @@
                 }
                 
                 alert('Password changed successfully');
-                document.getElementById('change-user-password').classList.add('hidden');
-                clearForm();
+  				if (window.opener) {
+ 				 if (confirm('Close this tab and return to the previous page?')) {
+   					 window.close();
+				  } else {
+    				document.getElementById('change-user-password')?.classList.add('hidden');
+    			clearForm();
+  				}	
+				} else {
+ 					 document.getElementById('change-user-password')?.classList.add('hidden');
+ 					 clearForm();
+				}
+                
+                
             } catch (error) {
                 console.error('Error in changeUserPassword:', error);
                 alert('Error changing password');
             }
         }
+        // ----- add this block -----
+		function openChangePassword(mode) {
+  // build a URL that tells the new tab what to open
+  			const base = window.location.href.split('?')[0].split('#')[0];
+  			const url = `${base}?open=change-password&mode=${encodeURIComponent(mode)}`;
 
+ 			const newWin = window.open(url, '_blank');
+  			if (!newWin) {
+   			alert('Popup blocked — please allow popups for this site (or open the change-password page manually).');
+  			} else {
+  		    try { newWin.focus(); } catch(e) {}
+  			}
+	   }
+
+// If the page opens with ?open=change-password&mode=xxx then show the relevant panel.
+// Add this inside your DOMContentLoaded handler (or at the end of it), after initialization:
+	(function handleOpenParamsOnLoad(){
+   			const params = new URLSearchParams(window.location.search);
+  			if (params.get('open') !== 'change-password') return;
+
+  			const mode = params.get('mode') || 'user';
+  		// delay slightly so the rest of your init (supabase, DOM setup) completes
+  			setTimeout(() => {
+    		if (mode === 'admin') {
+     	 // show admin page and the change-password section
+     		 showAdminPage();
+      		showSection('change-password');
+      // optionally auto-open the edit-admin sub-panel if you want:
+      		if (params.get('edit') === '1') {
+        	document.getElementById('edit-admin')?.classList.remove('hidden');
+      		}
+			}   else {
+      // show user page and the in-page change password panel
+      			showUserPage();
+      			showChangeUserPassword();
+    		}
+  				}, 600);
+				})();
         async function updateUserAnswer() {
             const question = document.getElementById('user-question').value;
             const answer = document.getElementById('user-answer').value;
