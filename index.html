@@ -2115,8 +2115,10 @@
         }
 
         // User Password Change
-        function showChangeUserPassword() {
-            document.getElementById('user-page').style.display = 'none';
+       function showChangeUserPassword() {
+     		const panel = document.getElementById('change-user-password');
+    		panel.classList.remove('hidden');             // show it
+   			panel.scrollIntoView({ behavior: 'smooth', block: 'start' }); // optional
 		}
         async function changeUserPassword() {
             const userId = document.getElementById('user-current-id').value.toLowerCase().trim();
