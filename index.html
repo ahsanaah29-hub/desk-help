@@ -432,14 +432,20 @@
 		}
 		
 		.user-header {
-			display: flex;
-			justify-content: space-between;
-			align-items: center;
-			text-align: left; /* Ensure text stays left-aligned */
-			font-size: 18px;
-			font-weight: bold;
-			margin-bottom: 20px;
-			color: #1E90FF;
+            display: flex;
+            justify-content: center; /* center the title */
+            align-items: center;
+            position: relative; /* allow absolutely positioned buttons */
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #1E90FF;
+        }
+		.header-buttons {
+    		position: absolute;
+    		right: 0;
+    		display: flex;
+    		gap: 10px;
 		}
 
 		.logout-btn {
@@ -706,9 +712,13 @@
     </div>
 
     <div id="user-page" class="user-container">
-        <div class="user-header">													<span>User Mode</span>
-		<button class="btn logout-btn" onclick="logout()">Logout</button>
-	</div>
+        <div class="user-header">
+    <span class="header-title">User Mode</span>
+    <div class="header-buttons">
+        <a href="#" class="btn" onclick="showChangeUserPassword()">Change Password</a>
+        <button class="btn logout-btn" onclick="logout()">Logout</button>
+    </div>
+</div>
         
         <div class="qa-buttons">
             <button class="btn" onclick="setUserMode('ask')">Ask</button>
@@ -743,9 +753,7 @@
             <button class="btn" id="user-update-btn" onclick="updateUserAnswer()" style="display:none;">Update</button>
         </div>
         
-        <div style="margin-top: 20px;">
-            <a href="#" onclick="showChangeUserPassword()">Change User Password</a>
-        </div>
+        
         
         <div id="change-user-password" class="hidden" style="margin-top: 15px; padding: 15px; border: 1px solid #ddd; border-radius: 4px;">
             <h4>Change Password</h4>
