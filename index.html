@@ -195,6 +195,18 @@
         .answer-area {
             height: 60vh;
         }
+		.qa-row {
+  			display: grid;
+  			grid-template-columns: 1fr 1fr;
+  			gap: 16px;
+  			align-items: start;
+		}
+		.qa-row .form-group { margin-bottom: 0; }
+
+		/* Stack on small screens */
+@media (max-width: 768px) {
+  .qa-row { grid-template-columns: 1fr; }
+}
 
         .prediction-list {
             background: white;
@@ -514,16 +526,18 @@
 
                     </div>
                     
-                    <div class="form-group">
-                        <label for="admin-question">Question</label>
-                        <textarea id="admin-question" class="question-area" placeholder="Enter your question here..."></textarea>
-                        <div id="admin-prediction-list" class="prediction-list"></div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="admin-answer">Answer</label>
-                        <textarea id="admin-answer" class="answer-area" placeholder="Answer will appear here..." readonly></textarea>
-                    </div>
+                    <div class="qa-row">
+  					   <div class="form-group">
+    					 <label for="admin-question">Question</label>
+    					 <textarea id="admin-question" class="question-area" placeholder="Enter your question here."></textarea>
+      					 <div id="admin-prediction-list" class="prediction-list"></div>
+ 				 	   </div>
+
+  					   <div class="form-group">
+     					 <label for="admin-answer">Answer</label>
+     					 <textarea id="admin-answer" class="answer-area" placeholder="Answer will appear here." readonly></textarea>
+  					   </div>
+					</div>
                     
                     <div id="media-section" class="hidden">
                         <div class="media-buttons">
@@ -728,16 +742,18 @@
             <button class="btn" id="user-add-btn" onclick="setUserMode('add')" style="display:none;">Add</button>
         </div>
         
-        <div class="form-group">
-            <label for="user-question">Question</label>
-            <textarea id="user-question" class="question-area" placeholder="Enter your question here..."></textarea>
-            <div id="user-prediction-list" class="prediction-list"></div>
-        </div>
-        
-        <div class="form-group">
-            <label for="user-answer">Answer</label>
-            <textarea id="user-answer" class="answer-area" placeholder="Answer will appear here..." readonly></textarea>
-        </div>
+        <div class="qa-row">
+  		  <div class="form-group">
+    	  	<label for="user-question">Question</label>
+    	  	<textarea id="user-question" class="question-area" placeholder="Enter your question here."></textarea>
+    		<div id="user-prediction-list" class="prediction-list"></div>
+           </div>
+
+  		  <div class="form-group">
+   			 <label for="user-answer">Answer</label>
+    		 <textarea id="user-answer" class="answer-area" placeholder="Answer will appear here." readonly></textarea>
+  			 </div>
+	    </div>
         
         <div class="media-buttons">
             <button class="btn" onclick="showUserVideo()">Video</button>
